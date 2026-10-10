@@ -39,18 +39,46 @@ audio{width:100%;border-radius:12px}
 #now{font:700 17px Amiri,Georgia,serif;color:var(--ac)}
 .hero{position:relative;overflow:hidden}.hero:after{content:"۞";position:absolute;right:-18px;bottom:-34px;font-size:120px;color:rgba(241,217,139,.12)}
 ::-webkit-scrollbar{width:6px}::-webkit-scrollbar-thumb{background:var(--bd);border-radius:9px}
+
+/* --- esthétique v3 --- */
+body{background:radial-gradient(900px 420px at 50% -80px,rgba(184,146,58,.14),transparent 70%),var(--bg);min-height:100vh}
+.hero{padding:34px 20px 36px;background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='64' height='64' viewBox='0 0 64 64'%3E%3Cg fill='none' stroke='%23f1d98b' stroke-opacity='.16' stroke-width='1'%3E%3Cpath d='M32 6l7 12 13-5-5 13 12 7-12 7 5 13-13-5-7 12-7-12-13 5 5-13-12-7 12-7-5-13 13 5z'/%3E%3Ccircle cx='32' cy='32' r='7'/%3E%3C/g%3E%3C/svg%3E") center/64px 64px,radial-gradient(circle at 80% 0,rgba(241,217,139,.22),transparent 45%),linear-gradient(150deg,#0e8567,#073d32 75%);border-bottom:2px solid var(--gold)}
+.bsm{font-size:32px;text-shadow:0 2px 14px rgba(0,0,0,.35)}
+h1{font-size:40px;letter-spacing:1px;text-shadow:0 2px 12px rgba(0,0,0,.3)}
+.sub{opacity:.9;letter-spacing:.3px}
+#thm{position:absolute;top:12px;right:14px;width:38px;height:38px;border-radius:50%;border:1px solid rgba(255,255,255,.3);background:rgba(255,255,255,.12);color:#fff;font-size:17px;backdrop-filter:blur(6px)}
+.tabs{position:sticky;top:8px;z-index:5;backdrop-filter:blur(14px);background:color-mix(in srgb,var(--card) 82%,transparent);border-radius:99px}
+.tabs button{border-radius:99px;font-weight:600}
+.tabs button.on{background:linear-gradient(135deg,var(--ac),#07503e)}
+.card{border-radius:24px;border:1px solid color-mix(in srgb,var(--gold) 35%,var(--bd))}
+.m{line-height:1.6;box-shadow:0 2px 8px rgba(0,0,0,.06)}
+.a{border-left:3px solid var(--gold)}
+.u{background:linear-gradient(135deg,var(--ac),#07503e)}
+.rh{display:flex;align-items:center;gap:10px;font-size:22px;margin:18px 2px 8px}
+.rh:after{content:"";flex:1;height:1px;background:linear-gradient(90deg,var(--gold),transparent)}
+.s{background:color-mix(in srgb,var(--bg) 55%,transparent);margin:6px 0;padding:10px 12px;border:1px solid var(--bd)!important}
+.s:hover{transform:translateY(-1px);box-shadow:var(--sh)}
+.p{background:linear-gradient(135deg,#12a37b,#0b6e55);box-shadow:0 0 0 4px var(--ac2),0 6px 14px rgba(11,110,85,.35)}
+#bar{border-radius:26px;border:1px solid var(--gold);background:color-mix(in srgb,var(--card) 88%,transparent);backdrop-filter:blur(16px);box-shadow:0 14px 40px rgba(0,0,0,.28)}
+.chip{box-shadow:0 1px 3px rgba(0,0,0,.06);transition:.15s}.chip:hover{border-color:var(--gold)}
+.go{box-shadow:0 4px 12px rgba(11,110,85,.35)}
+#v1:not(.hide),#v2:not(.hide),#v3:not(.hide){animation:up .35s ease}
+@keyframes up{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+.w:after{content:"✦  Créé par MOUHAMED RASSOUL KANE  ✦";display:block;text-align:center;margin-top:26px;font:400 15px Amiri,Georgia,serif;color:var(--gold);letter-spacing:.5px}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
 </style></head><body><div class="w"><div class="hero"><div class="bsm">بسم الله الرحمن الرحيم</div><h1>Noor · نور</h1><div class="sub">Assistant islamique &amp; lecteur du Coran</div></div>
-<div class="tabs"><button id="t1" class="on">💬 Questions</button><button id="t2">🎧 Coran</button></div>
+<div class="tabs"><button id="t1" class="on">💬 Questions</button><button id="t2">🎧 Coran</button><button id="t3">📚 Ma base</button></div>
 
 <div id="v1"><div class="card"><div id="log"><div class="m a">Salam ! Pose-moi tes questions sur l'islam : Allah, les prophètes, la prière, la sîra, le Coran… Je réponds en français et je te renvoie vers un savant pour les avis religieux (fatwas).</div></div>
 <div class="chips" id="chips"></div>
 <div class="row"><input id="q" placeholder="Pose ta question…"><button class="go" id="send">Envoyer</button></div></div></div>
 
+<div id="v3" class="hide"><div class="card" id="db"></div></div>
 <div id="v2" class="hide"><div class="card">
 <div class="row" style="margin-top:0"><input id="sq" placeholder="Ex : Alafasy, Sudais, Husary Al-Kahf…"><button class="go" id="sgo">OK</button></div>
 <div class="chips" id="rchips"></div>
 <div id="res" class="note">Écris le nom d'un récitateur (et éventuellement d'une sourate) ou touche un nom ci-dessus.</div></div>
-<div id="bar" class="card hide"><div id="now" style="font-size:14px;margin-bottom:6px"></div><div class="row" style="margin:0 0 8px"><button class="chip" id="prv">⏮ Précédente</button><button class="chip" id="spd">Vitesse 1×</button><button class="chip" id="nxt">Suivante ⏭</button></div><audio id="au" controls></audio><a id="fb" class="hide" target="_blank" rel="noopener" style="display:block;margin-top:8px;color:var(--ac)">⚠️ Lecture bloquée ici → ouvrir l audio dans un nouvel onglet</a></div>
+<div id="bar" class="card hide"><div id="now" style="font-size:14px;margin-bottom:6px"></div><div class="row" style="margin:0 0 8px"><button class="chip" id="prv">⏮ Précédente</button><button class="chip" id="fav">☆ Favori</button><button class="chip" id="spd">Vitesse 1×</button><button class="chip" id="nxt">Suivante ⏭</button></div><audio id="au" controls></audio><a id="fb" class="hide" target="_blank" rel="noopener" style="display:block;margin-top:8px;color:var(--ac)">⚠️ Lecture bloquée ici → ouvrir l audio dans un nouvel onglet</a></div>
 <div class="note">Audio diffusé depuis mp3quran.net. Si un lien ne marche pas, l app essaie automatiquement une autre source.</div></div>
 </div>
 <script>
@@ -195,7 +223,24 @@ const S="Al-Fatiha,Al-Baqara,Al-Imran,An-Nisa,Al-Ma'ida,Al-An'am,Al-A'raf,Al-Anf
 const norm=s=>s.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f'’\-]/g,"").replace(/\s+/g,"");
 function show(v){$("v1").classList.toggle("hide",v!=1);$("v2").classList.toggle("hide",v!=2);$("t1").classList.toggle("on",v==1);$("t2").classList.toggle("on",v==2)}
 $("t1").onclick=()=>show(1);$("t2").onclick=()=>show(2);
-if(typeof claude==="undefined"){$("t1").classList.add("hide");$("t2").style.flex="1";show(2)}
+if(typeof noorIA==="undefined"){
+const KEY="noor_groq";
+const MODELS=["llama-3.3-70b-versatile","llama-3.1-8b-instant"];let mi=0;
+async function aiSample(input,o){const tools=o.tools||[];
+ let key=localStorage.getItem(KEY);
+ if(!key){key=prompt("Colle ta clé gratuite Groq (gsk_…) obtenue sur console.groq.com/keys. Elle reste uniquement sur cet appareil.");if(!key)throw{code:"nokey"};localStorage.setItem(KEY,key.trim())}
+ const msgs=input.map(m=>({role:m.role,content:m.content})),tl=tools.map(t=>({type:"function",function:{name:t.name,description:t.description,parameters:t.inputSchema}}));
+ for(let n=0;n<4;n++){
+  const r=await fetch("https://api.groq.com/openai/v1/chat/completions",{method:"POST",headers:{"content-type":"application/json","authorization":"Bearer "+key},body:JSON.stringify({model:MODELS[mi],temperature:.2,max_tokens:700,messages:msgs,tools:tl})});
+  if(r.status==429&&mi<MODELS.length-1){mi++;n--;continue}
+  if(!r.ok){if(r.status==401)localStorage.removeItem(KEY);throw{code:r.status==429?"rate_limited":"err"}}
+  const d=await r.json(),m=d.choices[0].message,text=m.content||"";
+  if(!m.tool_calls||!m.tool_calls.length){o.onText&&o.onText({text});return{text}}
+  msgs.push(m);
+  for(const c of m.tool_calls){const t=tools.find(x=>x.name==c.function.name);let out;try{out=String(await t.execute(JSON.parse(c.function.arguments||"{}")))}catch(e){out="Erreur"}msgs.push({role:"tool",tool_call_id:c.id,content:out})}}
+ return{text:"…"}}
+window.noorIA={use:async()=>aiSample};
+const kb=document.createElement("button");kb.className="chip";kb.textContent="🔑 Changer la clé Groq";kb.onclick=()=>{localStorage.removeItem(KEY);add("a","Clé effacée. Elle te sera redemandée à ta prochaine question.")};$("chips").appendChild(kb)}
 
 
 function findR(q){const w=clean(q);if(!w.length)return[];let best=0;const sc=R.map((r,k)=>{const n=w.filter(x=>hit(x,k)).length;best=Math.max(best,n);return n});return best?R.filter((r,k)=>sc[k]==best):[]}
@@ -208,7 +253,7 @@ function card(r,i){const d=document.createElement("div");d.className="m a";const
 // ---- Questions
 const hist=[];let sample=null,busy=false;
 ["Qui est Allah ?","Les 5 piliers de l'islam","Parle-moi du prophète Moussa","Comment faire la prière ?"].forEach(t=>{const b=document.createElement("button");b.className="chip";b.textContent=t;b.onclick=()=>{$("q").value=t;ask()};$("chips").appendChild(b)});
-const SYS="Tu es Noor, un assistant islamique bienveillant. Réponds en français (ou dans la langue de l'utilisateur), de façon claire, respectueuse et concise. Appuie-toi sur le Coran et les hadiths authentiques (sahih) en citant la sourate/le verset ou le recueil quand tu le peux, sans inventer de références. Après le nom d'Allah dis ﷻ si naturel, et ﷺ après le Prophète Muhammad ; 'AS' ou 'عليه السلام' après les autres prophètes. Présente les divergences entre écoles juridiques quand elles existent. Pour les avis religieux personnels (fatwas), rappelle qu'il faut consulter un savant qualifié. Quand la personne veut écouter / mettre / jouer une récitation du Coran (récitateur et/ou sourate), appelle TOUJOURS l'outil play_quran au lieu de répondre en texte, puis confirme en une phrase. Si le récitateur est ambigu ou inconnu, l'outil te renverra des suggestions : propose-les. Ne remplace pas un savant.";
+const SYS="Tu es Noor, un assistant islamique bienveillant. Si on te demande qui t'a créé, qui est ton créateur ou qui t'a développé, réponds exactement : « J'ai été créé par MOUHAMED RASSOUL KANE. » Utilise naturellement les expressions islamiques : réponds « Alhamdulillah » quand on te demande comment tu vas ou quand il y a une bonne nouvelle, et emploie « Macha Allah », « In cha Allah » et « Baraka Allahou fik » à bon escient. Commence tes réponses par « Salam » ou « Wa alaykoum salam » si la personne salue. Réponds en français (ou dans la langue de l'utilisateur), de façon claire, respectueuse et concise. Appuie-toi sur le Coran et les hadiths authentiques (sahih) en citant la sourate/le verset ou le recueil quand tu le peux, sans inventer de références. Après le nom d'Allah dis ﷻ si naturel, et ﷺ après le Prophète Muhammad ; 'AS' ou 'عليه السلام' après les autres prophètes. Présente les divergences entre écoles juridiques quand elles existent. Pour les avis religieux personnels (fatwas), rappelle qu'il faut consulter un savant qualifié. Quand la personne veut écouter / mettre / jouer une récitation du Coran (récitateur et/ou sourate), appelle TOUJOURS l'outil play_quran au lieu de répondre en texte, puis confirme en une phrase. Si le récitateur est ambigu ou inconnu, l'outil te renverra des suggestions : propose-les. RÈGLES DE FIABILITÉ : ne cite jamais un verset de mémoire, utilise TOUJOURS l'outil get_verse puis recopie fidèlement son résultat avec la référence. Ne cite un hadith que s'il est très célèbre et dans Bukhari ou Muslim, avec le recueil ; sinon dis que tu ne peux pas confirmer la référence. Si tu n'es pas sûr d'une information, dis-le clairement et n'invente jamais (ni nom, ni date, ni numéro). Distingue ce qui fait consensus de ce qui diverge. Reste bref. Quand la personne partage une information durable sur elle (prénom, niveau, préférences, récitateur favori), appelle l'outil remember. Ne remplace pas un savant.";
 function add(c,t){const d=document.createElement("div");d.className="m "+c;d.textContent=t;$("log").appendChild(d);$("log").scrollTop=1e9;return d}
 const tools=[{name:"play_quran",description:"Affiche un lecteur audio dans le chat pour écouter une sourate récitée par un récitateur donné.",inputSchema:{type:"object",properties:{reciter:{type:"string",description:"nom du récitateur, ex: Alafasy, Sudais, Husary"},surah:{type:"string",description:"nom (ex: Al-Kahf) ou numéro de la sourate (1-114)"}},required:["reciter","surah"]},
   execute:async({reciter,surah})=>{const i=findS(surah);if(i<0)return "Sourate introuvable : "+surah+". Demande à la personne de préciser.";
@@ -217,11 +262,11 @@ const tools=[{name:"play_quran",description:"Affiche un lecteur audio dans le ch
     const r=m[0];card(r,i).play().catch(()=>{});return "Lecteur affiché pour "+r[0]+", sourate "+(i+1)+" "+S[i]+"."}}];
 async function ask(){
   const q=$("q").value.trim();if(!q||busy)return;
-  try{if(!sample)sample=await claude.use("sample")}catch(e){}
+  try{if(!sample)sample=await noorIA.use("sample")}catch(e){}
   if(!sample){add("a","L'assistant n'est pas disponible dans cette vue (la fonction IA n'est pas activée).");return}
   $("q").value="";add("u",q);hist.push({role:"user",content:q});busy=true;
   const el=add("a","…");
-  const input=[{role:"user",content:SYS+"\n\nVoici la conversation. Réponds au dernier message."},{role:"assistant",content:"Compris."},...hist.slice(-12)];
+  const input=[{role:"user",content:SYS+memTxt()+"\n\nVoici la conversation. Réponds au dernier message."},{role:"assistant",content:"Compris."},...hist.slice(-6)];
   try{const r=await sample(input,{cache:false,tools,onText:({text})=>{el.textContent=text;$("log").scrollTop=1e9}});
     el.textContent=r.text;hist.push({role:"assistant",content:r.text})}
   catch(e){el.textContent=e&&e.code=="rate_limited"?"Trop de demandes, réessaie dans un instant.":"Je n'ai pas pu répondre. Réessaie."}
@@ -272,4 +317,60 @@ au.onended=()=>step(1);au.onloadedmetadata=()=>{au.playbackRate=rates[ri]};
 $("nxt").onclick=()=>step(1);$("prv").onclick=()=>step(-1);
 $("spd").onclick=()=>{ri=(ri+1)%rates.length;au.playbackRate=rates[ri];$("spd").textContent="Vitesse "+rates[ri]+"×"};
 try{const l=JSON.parse(localStorage.getItem("noor_last")||"null");if(l&&R[l[0]]){const b=document.createElement("button");b.className="chip";b.style.borderColor="var(--gold)";b.textContent="↻ Reprendre : "+R[l[0]][0]+" — "+S[l[1]];b.onclick=()=>play(R[l[0]],l[1]);$("rchips").prepend(b)}}catch(e){}
+
+tools.push({name:"get_verse",description:"Récupère le texte arabe et la traduction française exacts d'un ou plusieurs versets du Coran. À utiliser avant de citer tout verset.",inputSchema:{type:"object",properties:{surah:{type:"string",description:"nom ou numéro de la sourate"},from:{type:"integer",description:"premier verset"},to:{type:"integer",description:"dernier verset (max 7 de plus que from)"}},required:["surah","from"]},
+ execute:async({surah,from,to})=>{const i=findS(surah);if(i<0)return "Sourate introuvable.";const a=Math.max(1,+from||1),b=Math.min(+(to||a),a+6);
+  try{const r=await fetch("https://api.alquran.cloud/v1/surah/"+(i+1)+"/editions/quran-uthmani,fr.hamidullah?offset="+(a-1)+"&limit="+(b-a+1));const d=await r.json();if(!d.data)return "Verset introuvable.";
+   return d.data[0].ayahs.map((x,k)=>S[i]+" ("+(i+1)+":"+x.numberInSurah+")\n"+x.text+"\n"+d.data[1].ayahs[k].text+" [trad. Hamidullah]").join("\n\n")}catch(e){return "Service des versets indisponible : ne cite pas de verset."}}});
+
+/* --- base de données locale + mémoire --- */
+const DB=(()=>{let d=null;try{d=JSON.parse(localStorage.getItem("noor_db")||"null")}catch(e){}
+ d=d&&typeof d=="object"?d:{};for(const k of["mem","chat","favs","plays","convs"])if(!Array.isArray(d[k]))d[k]=[];
+ return{d,save(){try{localStorage.setItem("noor_db",JSON.stringify(d))}catch(e){}}}})();
+function memTxt(){return DB.d.mem.length?"\n\nMémoire sur la personne (utilise-la naturellement) : "+DB.d.mem.join(" ; "):""}
+tools.push({name:"remember",description:"Mémorise un fait durable sur la personne (prénom, niveau, préférences, récitateur favori).",inputSchema:{type:"object",properties:{fact:{type:"string",description:"le fait, en une courte phrase"}},required:["fact"]},
+ execute:async({fact})=>{fact=String(fact||"").slice(0,200);if(fact&&!DB.d.mem.includes(fact)){DB.d.mem.push(fact);DB.d.mem=DB.d.mem.slice(-30);DB.save()}return "Mémorisé."}});
+// conversation sauvegardée
+DB.d.chat.forEach(m=>{if(m&&m.role&&typeof m.content=="string"){hist.push(m);add(m.role=="user"?"u":"a",m.content)}});
+const _ask=ask;const ask2=async()=>{await _ask();DB.d.chat=hist.slice(-40);DB.save()};
+$("send").onclick=ask2;$("q").onkeydown=e=>{if(e.key=="Enter")ask2()};
+// historique d'écoute
+const _p2=play;play=function(r,i){DB.d.plays.unshift([R.indexOf(r),i,Date.now()]);DB.d.plays=DB.d.plays.slice(0,50);DB.save();_p2(r,i)};
+// favoris
+const isFav=(a,b)=>DB.d.favs.some(f=>f[0]==a&&f[1]==b);
+$("fav").onclick=()=>{if(!cur)return;const a=R.indexOf(cur[0]),b=cur[1];DB.d.favs=isFav(a,b)?DB.d.favs.filter(f=>!(f[0]==a&&f[1]==b)):[[a,b],...DB.d.favs];DB.save();$("fav").textContent=isFav(a,b)?"★ Favori":"☆ Favori"};
+au.addEventListener("loadstart",()=>{if(cur)$("fav").textContent=isFav(R.indexOf(cur[0]),cur[1])?"★ Favori":"☆ Favori"});
+// onglet Ma base
+const h=(t,c,x)=>{const e=document.createElement(t);if(c)e.className=c;if(x!=null)e.textContent=x;return e};
+function sect(p,title){p.appendChild(h("div","rh",title))}
+function line(p,txt,onPlay,onDel){const d=h("div","s");d.appendChild(h("div","t",txt));if(onPlay){const b=h("button","p","▶");b.onclick=onPlay;d.appendChild(b)}if(onDel){const b=h("button","chip","✕");b.onclick=onDel;d.appendChild(b)}p.appendChild(d)}
+function renderDB(){const p=$("db");p.innerHTML="";
+ sect(p,"🧠 Mémoire de l'assistant");
+ if(!DB.d.mem.length)p.appendChild(h("div","note","Rien pour l'instant. Dis-lui par exemple « je m'appelle Karim », il s'en souviendra."));
+ DB.d.mem.forEach((m,i)=>line(p,m,null,()=>{DB.d.mem.splice(i,1);DB.save();renderDB()}));
+ const r=h("div","row"),inp=h("input");inp.placeholder="Ajouter un souvenir…";const ad=h("button","go","+");ad.onclick=()=>{const v=inp.value.trim();if(v){DB.d.mem.push(v.slice(0,200));DB.save();renderDB()}};r.append(inp,ad);p.appendChild(r);
+ sect(p,"⭐ Favoris");if(!DB.d.favs.length)p.appendChild(h("div","note","Touche ☆ Favori dans le lecteur pour en ajouter."));
+ DB.d.favs.forEach(f=>{if(R[f[0]])line(p,R[f[0]][0]+" — "+(f[1]+1)+". "+S[f[1]],()=>{show(2);play(R[f[0]],f[1])},()=>{DB.d.favs=DB.d.favs.filter(x=>x!==f);DB.save();renderDB()})});
+ sect(p,"🕘 Dernières écoutes ("+DB.d.plays.length+")");
+ DB.d.plays.slice(0,10).forEach(x=>{if(R[x[0]])line(p,R[x[0]][0]+" — "+(x[1]+1)+". "+S[x[1]]+" · "+new Date(x[2]).toLocaleDateString("fr-FR"),()=>{show(2);play(R[x[0]],x[1])})});
+ sect(p,"🗂 Historique des conversations");if(!DB.d.convs.length)p.appendChild(h("div","note","Aucune conversation archivée. Touche « ➕ Nouvelle conversation » dans l'onglet Questions pour archiver la conversation en cours."));
+ DB.d.convs.forEach((c,i)=>line(p,c.t+" · "+new Date(c.d).toLocaleDateString("fr-FR"),()=>loadConv(i),()=>{DB.d.convs.splice(i,1);DB.save();renderDB()}));
+ sect(p,"💾 Données");const row=h("div","chips");
+ const ex=h("button","chip","Exporter");ex.onclick=()=>{const a=h("a");a.href=URL.createObjectURL(new Blob([JSON.stringify(DB.d)],{type:"application/json"}));a.download="noor-sauvegarde.json";a.click()};
+ const im=h("button","chip","Importer"),fi=h("input");fi.type="file";fi.accept=".json";fi.className="hide";fi.onchange=async()=>{try{const j=JSON.parse(await fi.files[0].text());for(const k of["mem","chat","favs","plays","convs"])if(Array.isArray(j[k]))DB.d[k]=j[k];DB.save();location.reload()}catch(e){alert("Fichier invalide")}};im.onclick=()=>fi.click();
+ const cl=h("button","chip","Tout effacer");cl.onclick=()=>{if(confirm("Effacer mémoire, favoris, historique et conversation ?")){for(const k of["mem","chat","favs","plays","convs"])DB.d[k]=[];DB.save();location.reload()}};
+ row.append(ex,im,fi,cl);p.appendChild(row);p.appendChild(h("div","note","Tout est enregistré uniquement dans ce navigateur, sur cet appareil. Exporte de temps en temps pour garder une sauvegarde."))}
+show=function(v){for(const n of[1,2,3]){$("v"+n).classList.toggle("hide",v!=n);$("t"+n).classList.toggle("on",v==n)}if(v==3)renderDB()};
+$("t3").onclick=()=>show(3);
+
+function archive(){if(hist.length){const u=hist.find(m=>m.role=="user");DB.d.convs.unshift({t:(u?u.content:"Conversation").slice(0,50),d:Date.now(),m:hist.slice(-40)});DB.d.convs=DB.d.convs.slice(0,30)}hist.length=0}
+function resetLog(){$("log").innerHTML="";}
+function loadConv(i){const c=DB.d.convs[i];if(!c)return;DB.d.convs.splice(i,1);archive();resetLog();c.m.forEach(m=>{hist.push(m);add(m.role=="user"?"u":"a",m.content)});DB.d.chat=hist.slice();DB.save();show(1)}
+const nb=h("button","chip","➕ Nouvelle conversation");nb.onclick=()=>{if(busy)return;archive();DB.d.chat=[];DB.save();resetLog();add("a","Salam ! Nouvelle conversation, je t'écoute. L'ancienne est dans 📚 Ma base → Historique.")};
+$("chips").prepend(nb);
+
+(function(){const hr=document.querySelector(".hero");if(!hr)return;const b=document.createElement("button");b.id="thm";b.setAttribute("aria-label","Thème");
+ const dark=()=>document.documentElement.dataset.theme?document.documentElement.dataset.theme=="dark":matchMedia("(prefers-color-scheme:dark)").matches;
+ const set=t=>{document.documentElement.dataset.theme=t;b.textContent=t=="dark"?"☀":"🌙";try{localStorage.setItem("noor_theme",t)}catch(e){}};
+ let t=null;try{t=localStorage.getItem("noor_theme")}catch(e){}set(t||(dark()?"dark":"light"));b.onclick=()=>set(dark()?"light":"dark");hr.appendChild(b)})();
 </script></body></html>
