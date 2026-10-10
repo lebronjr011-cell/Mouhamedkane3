@@ -226,19 +226,25 @@ $("t1").onclick=()=>show(1);$("t2").onclick=()=>show(2);
 if(typeof noorIA==="undefined"){
 const KEY="noor_groq";
 const MODELS=["llama-3.3-70b-versatile","llama-3.1-8b-instant"];let mi=0;
-async function aiSample(input,o){const tools=o.tools||[];
+async function aiSample(input,o){let tools=o.tools||[];
  let key=localStorage.getItem(KEY);
- if(!key){key=prompt("Colle ta clé gratuite Groq (gsk_…) obtenue sur console.groq.com/keys. Elle reste uniquement sur cet appareil.");if(!key)throw{code:"nokey"};localStorage.setItem(KEY,key.trim())}
- const msgs=input.map(m=>({role:m.role,content:m.content})),tl=tools.map(t=>({type:"function",function:{name:t.name,description:t.description,parameters:t.inputSchema}}));
- for(let n=0;n<4;n++){
-  const r=await fetch("https://api.groq.com/openai/v1/chat/completions",{method:"POST",headers:{"content-type":"application/json","authorization":"Bearer "+key},body:JSON.stringify({model:MODELS[mi],temperature:.2,max_tokens:700,messages:msgs,tools:tl})});
-  if(r.status==429&&mi<MODELS.length-1){mi++;n--;continue}
-  if(!r.ok){if(r.status==401)localStorage.removeItem(KEY);throw{code:r.status==429?"rate_limited":"err"}}
+ if(!key){key=prompt("Colle ta clé gratuite Groq (gsk_…) obtenue sur console.groq.com/keys. Elle reste uniquement sur cet appareil.");if(!key)throw{code:"nokey"};key=key.trim();localStorage.setItem(KEY,key)}
+ const msgs=input.map(m=>({role:m.role,content:m.content})),mk=()=>tools.map(t=>({type:"function",function:{name:t.name,description:t.description,parameters:t.inputSchema}}));
+ for(let n=0;n<6;n++){
+  const body={model:MODELS[mi],temperature:.2,max_tokens:700,messages:msgs};if(tools.length)body.tools=mk();
+  let r;try{r=await fetch("https://api.groq.com/openai/v1/chat/completions",{method:"POST",headers:{"content-type":"application/json","authorization":"Bearer "+key},body:JSON.stringify(body)})}catch(e){throw{code:"net"}}
+  if(!r.ok){let det="";try{det=(await r.json()).error.message}catch(e){}
+   if(r.status==401){localStorage.removeItem(KEY);throw{code:"auth"}}
+   if(r.status==429&&mi<MODELS.length-1){mi++;continue}
+   if(r.status==429)throw{code:"rate_limited"};
+   if(tools.length){tools=[];continue}
+   if(r.status==404&&mi<MODELS.length-1){mi++;continue}
+   throw{code:"err",status:r.status,detail:det}}
   const d=await r.json(),m=d.choices[0].message,text=m.content||"";
   if(!m.tool_calls||!m.tool_calls.length){o.onText&&o.onText({text});return{text}}
   msgs.push(m);
   for(const c of m.tool_calls){const t=tools.find(x=>x.name==c.function.name);let out;try{out=String(await t.execute(JSON.parse(c.function.arguments||"{}")))}catch(e){out="Erreur"}msgs.push({role:"tool",tool_call_id:c.id,content:out})}}
- return{text:"…"}}
+ return{text:"Je n'ai pas réussi à répondre, réessaie."}}
 window.noorIA={use:async()=>aiSample};
 const kb=document.createElement("button");kb.className="chip";kb.textContent="🔑 Changer la clé Groq";kb.onclick=()=>{localStorage.removeItem(KEY);add("a","Clé effacée. Elle te sera redemandée à ta prochaine question.")};$("chips").appendChild(kb)}
 
@@ -251,7 +257,8 @@ function card(r,i){const d=document.createElement("div");d.className="m a";const
   a.onerror=()=>{if(k+1<c.length){k++;a.src=c[k];l.href=c[k];a.play().catch(()=>{})}};
   $("log").appendChild(d);$("log").scrollTop=1e9;return a}
 // ---- Questions
-const hist=[];let sample=null,busy=false;
+const hist=[];
+function errMsg(e){const c=e&&e.code;return c=="rate_limited"?"Limite gratuite Groq atteinte, réessaie dans un instant.":c=="auth"?"Clé Groq refusée. Elle a été effacée : pose une nouvelle question et colle une clé valide (gsk_…).":c=="net"?"Connexion impossible à Groq (réseau ou blocage du navigateur). Vérifie ta connexion.":c=="nokey"?"Aucune clé saisie. Pose ta question à nouveau et colle ta clé Groq.":"Erreur Groq"+(e&&e.status?" ("+e.status+")":"")+(e&&e.detail?" : "+e.detail:"")+"."}let sample=null,busy=false;
 ["Qui est Allah ?","Les 5 piliers de l'islam","Parle-moi du prophète Moussa","Comment faire la prière ?"].forEach(t=>{const b=document.createElement("button");b.className="chip";b.textContent=t;b.onclick=()=>{$("q").value=t;ask()};$("chips").appendChild(b)});
 const SYS="Tu es Noor, un assistant islamique bienveillant. Si on te demande qui t'a créé, qui est ton créateur ou qui t'a développé, réponds exactement : « J'ai été créé par MOUHAMED RASSOUL KANE. » Utilise naturellement les expressions islamiques : réponds « Alhamdulillah » quand on te demande comment tu vas ou quand il y a une bonne nouvelle, et emploie « Macha Allah », « In cha Allah » et « Baraka Allahou fik » à bon escient. Commence tes réponses par « Salam » ou « Wa alaykoum salam » si la personne salue. Réponds en français (ou dans la langue de l'utilisateur), de façon claire, respectueuse et concise. Appuie-toi sur le Coran et les hadiths authentiques (sahih) en citant la sourate/le verset ou le recueil quand tu le peux, sans inventer de références. Après le nom d'Allah dis ﷻ si naturel, et ﷺ après le Prophète Muhammad ; 'AS' ou 'عليه السلام' après les autres prophètes. Présente les divergences entre écoles juridiques quand elles existent. Pour les avis religieux personnels (fatwas), rappelle qu'il faut consulter un savant qualifié. Quand la personne veut écouter / mettre / jouer une récitation du Coran (récitateur et/ou sourate), appelle TOUJOURS l'outil play_quran au lieu de répondre en texte, puis confirme en une phrase. Si le récitateur est ambigu ou inconnu, l'outil te renverra des suggestions : propose-les. RÈGLES DE FIABILITÉ : ne cite jamais un verset de mémoire, utilise TOUJOURS l'outil get_verse puis recopie fidèlement son résultat avec la référence. Ne cite un hadith que s'il est très célèbre et dans Bukhari ou Muslim, avec le recueil ; sinon dis que tu ne peux pas confirmer la référence. Si tu n'es pas sûr d'une information, dis-le clairement et n'invente jamais (ni nom, ni date, ni numéro). Distingue ce qui fait consensus de ce qui diverge. Reste bref. Quand la personne partage une information durable sur elle (prénom, niveau, préférences, récitateur favori), appelle l'outil remember. Ne remplace pas un savant.";
 function add(c,t){const d=document.createElement("div");d.className="m "+c;d.textContent=t;$("log").appendChild(d);$("log").scrollTop=1e9;return d}
@@ -269,7 +276,7 @@ async function ask(){
   const input=[{role:"user",content:SYS+memTxt()+"\n\nVoici la conversation. Réponds au dernier message."},{role:"assistant",content:"Compris."},...hist.slice(-6)];
   try{const r=await sample(input,{cache:false,tools,onText:({text})=>{el.textContent=text;$("log").scrollTop=1e9}});
     el.textContent=r.text;hist.push({role:"assistant",content:r.text})}
-  catch(e){el.textContent=e&&e.code=="rate_limited"?"Trop de demandes, réessaie dans un instant.":"Je n'ai pas pu répondre. Réessaie."}
+  catch(e){el.textContent=errMsg(e)}
   busy=false}
 $("send").onclick=ask;$("q").onkeydown=e=>{if(e.key=="Enter")ask()};
 
